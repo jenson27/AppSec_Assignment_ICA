@@ -68,7 +68,12 @@
                 </td>
                 <td class="style2">
                     <asp:TextBox ID="tb_email" runat="server" Height="32px" Width="281px"></asp:TextBox>
-
+                    <asp:RegularExpressionValidator
+                        id="regEmail"
+                        ControlToValidate="tb_email"
+                        Text="Enter valid email address"
+                        ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                        Runat="server" />   
 
                 </td>
             </tr>
