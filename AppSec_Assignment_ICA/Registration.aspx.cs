@@ -38,6 +38,41 @@ namespace AppSec_Assignment_ICA
 
         }
 
+        protected bool getDBEmail(string email)
+        {
+
+            SqlConnection connection = new SqlConnection(MYDBConnectionString);
+            string sql = "select email FROM ACCOUNT WHERE Email=@EMAIL";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@EMAIL", email);
+
+            try
+            {
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (reader["EMAIL"].Equals(email))
+                        {
+                            connection.Close();
+                            return true;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+            finally { connection.Close(); }
+            return false;
+
+        }
+
         public bool ValidateCaptcha()
         {
             bool result = true;
@@ -249,7 +284,7 @@ namespace AppSec_Assignment_ICA
                 lbl_pwdchecker.ForeColor = Color.Green;
 
                 /* Session. */
-                if (tb_email.Text.Trim().Equals("email") && tb_password.Text.Trim().Equals("Password12345@"))
+                if (!getDBEmail(tb_email.Text.Trim()))
                 {
                     Session["LoggedIn"] = tb_email.Text.Trim();
 
@@ -303,7 +338,7 @@ namespace AppSec_Assignment_ICA
                     Response.Redirect("HomePage.aspx", false);
                 } else
                 {
-                    lb_error1.Text = "Wrong email or password";
+                    lb_error1.Text = "Email already exist";
                 }
             }
         }
