@@ -112,6 +112,37 @@ namespace AppSec_Assignment_ICA
             /* If email exist send a send grid with the random generated number. */
             if (tb_password1.Text.Trim().Equals(tb_password2.Text.Trim()))
             {
+                /* Password handler. */
+                int scores = checkPassword(tb_password1.Text);
+                string status = "";
+                switch (scores)
+                {
+                    case 1:
+                        status = "Very Weak";
+                        break;
+                    case 2:
+                        status = "Weak";
+                        break;
+                    case 3:
+                        status = "Medium";
+                        break;
+                    case 4:
+                        status = "Strong";
+                        break;
+                    case 5:
+                        status = "Very Strong";
+                        break;
+                    default:
+                        break;
+                }
+                lbl_pwdchecker.Text = "Status : " + status;
+                if (scores < 4)
+                {
+                    lbl_pwdchecker.ForeColor = Color.Red;
+                    return;
+                }
+                lbl_pwdchecker.ForeColor = Color.Green;
+
                 /* Password Hashing. */
                 string pwd = tb_password1.Text.ToString().Trim();
 
