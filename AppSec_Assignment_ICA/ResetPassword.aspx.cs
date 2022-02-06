@@ -35,7 +35,7 @@ namespace AppSec_Assignment_ICA
             SqlConnection conn = new SqlConnection(MYDBConnectionString);
             SqlDataAdapter da = null;
             /* Edit this. */
-            string sqlupd = "UPDATE [Act] SET [Title] = @Title, [Description] = @Description, [Duration] = @Duration WHERE [ActId] = @ActId";
+            string sqlupd = "UPDATE [Account] SET [Title] = @Title, [Description] = @Description, [Duration] = @Duration WHERE [email] = @Email";
 
             try
             {
@@ -45,9 +45,9 @@ namespace AppSec_Assignment_ICA
                 da.UpdateCommand = new SqlCommand(sqlupd, conn);
 
                 //da.UpdateCommand.Parameters.AddWithValue("@Title", TextBoxTitle.Text);
-                //da.UpdateCommand.Parameters.AddWithValue("@Description", TextBoxText.Text);
-                //da.UpdateCommand.Parameters.AddWithValue("@Duration", TextBoxDuration.Text);
-                //da.UpdateCommand.Parameters.AddWithValue("@ActId", LabelID.Text);
+                //da.UpdateCommand.Parameters.AddWithValue("@password", passwordSalt);
+                //da.UpdateCommand.Parameters.AddWithValue("@passwordHash", finalHash);
+                //da.UpdateCommand.Parameters.AddWithValue("@Email", Session["EmailPasswordReset"].ToString());
 
                 da.UpdateCommand.ExecuteNonQuery();
 
