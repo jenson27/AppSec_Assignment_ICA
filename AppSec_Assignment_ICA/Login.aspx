@@ -31,7 +31,7 @@
                     <asp:TextBox ID="tb_pwd" runat="server" Height="16px" Width="281px"></asp:TextBox>
                 </td>
             </tr>
-                        <tr>
+             <tr>
                 <td class="style3">
        
                 </td>
@@ -55,5 +55,8 @@
     
     </div>
     </form>
+    <button type ="button" onclick="location.href='/Registration.aspx'"> Registration </button>
+    <button type ="button" onclick="location.href='/ForgotPassword.aspx'"> Forgot Password </button>
+
 </body>
 </html>

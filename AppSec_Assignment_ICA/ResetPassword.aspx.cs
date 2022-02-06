@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace AppSec_Assignment_ICA
 {
@@ -32,33 +33,40 @@ namespace AppSec_Assignment_ICA
 
         protected void UpdateAccount()
         {
-            SqlConnection conn = new SqlConnection(MYDBConnectionString);
-            SqlDataAdapter da = null;
-            /* Edit this. */
-            string sqlupd = "UPDATE [Account] SET [Title] = @Title, [Description] = @Description, [Duration] = @Duration WHERE [email] = @Email";
-
-            try
+            using (SqlConnection con = new SqlConnection(MYDBConnectionString))
             {
-                conn.Open();
-                da = new SqlDataAdapter();
+                using (SqlCommand cmd = new SqlCommand("UPDATE Account SET passwordHash = @PasswordHash, passwordSalt = @PasswordSalt WHERE email = @Email"))
+                //using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@Email, @Mobile,@Nric,@PasswordHash,@PasswordSalt,@DateTimeRegistered,@MobileVerified,@EmailVerified)"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@PasswordSalt", salt);
+                        cmd.Parameters.AddWithValue("@PasswordHash", finalHash);
+                        cmd.Parameters.AddWithValue("@Email", Session["EmailPasswordReset"].ToString());
+                        cmd.Connection = con;
+                        //con.Open();
+                        //cmd.ExecuteNonQuery();
+                        //con.Close();
 
-                da.UpdateCommand = new SqlCommand(sqlupd, conn);
+                        try
+                        {
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            //throw new Exception(ex.ToString());
+                            //lb_error1.Text = ex.ToString();
+                        }
+                        finally
+                        {
+                            con.Close();
+                        }
+                    }
+                }
 
-                //da.UpdateCommand.Parameters.AddWithValue("@Title", TextBoxTitle.Text);
-                //da.UpdateCommand.Parameters.AddWithValue("@password", passwordSalt);
-                //da.UpdateCommand.Parameters.AddWithValue("@passwordHash", finalHash);
-                //da.UpdateCommand.Parameters.AddWithValue("@Email", Session["EmailPasswordReset"].ToString());
-
-                da.UpdateCommand.ExecuteNonQuery();
-
-            }
-            catch (Exception ex)
-            {
-                //LabelMessage.Text = "" + ex.Message;
-            }
-            finally
-            {
-                conn.Close();
             }
         }
 
@@ -105,7 +113,7 @@ namespace AppSec_Assignment_ICA
             if (tb_password1.Text.Trim().Equals(tb_password2.Text.Trim()))
             {
                 /* Password Hashing. */
-                string pwd = tb_password1.Text.ToString().Trim(); ;
+                string pwd = tb_password1.Text.ToString().Trim();
 
                 //Generate random "salt" 
                 RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
@@ -130,12 +138,14 @@ namespace AppSec_Assignment_ICA
                 cipher.GenerateKey();
                 Key = cipher.Key;
                 IV = cipher.IV;
-                Response.Redirect("ResetPassword.aspx", false);
+
+                UpdateAccount();
+                Response.Redirect("Login.aspx", false);
 
             }
             else
             {
-                lb_error.Text = "Wrong Verification Code";
+                lb_error.Text = "Password does not match";
             }
         }
     }
