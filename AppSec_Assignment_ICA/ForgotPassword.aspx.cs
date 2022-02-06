@@ -15,6 +15,7 @@ using System.Net.Mime;
 using System.Net.Http;
 using System.Diagnostics;
 
+
 namespace AppSec_Assignment_ICA
 {
     public partial class ForgotPassword : System.Web.UI.Page
@@ -66,7 +67,13 @@ namespace AppSec_Assignment_ICA
             /* If email exist send a send grid with the random generated number. */
             if (getDBEmail(tb_email.Text.Trim()))
             {
-                SendEmail(tb_email.Text.Trim());
+                Random rnd = new Random();
+                string token = rnd.Next(1000, 9999).ToString();
+
+                Session["EmailPasswordReset"] = tb_email.Text.Trim();
+                Session["VerificationToken"] = token;
+                SendEmail(tb_email.Text.Trim(), token);
+                Response.Redirect("Verification.aspx", false);
 
             }
             else
@@ -75,10 +82,8 @@ namespace AppSec_Assignment_ICA
             }
         }
 
-        static void SendEmail(string email)
+        static void SendEmail(string email, string token)
         {
-            Random rnd = new Random();
-            int token = rnd.Next(1000, 9999);
             /*
             var apiKey = "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";
             var client = new SendGridClient(apiKey);
