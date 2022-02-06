@@ -30,6 +30,38 @@ namespace AppSec_Assignment_ICA
 
         }
 
+        protected void UpdateAccount()
+        {
+            SqlConnection conn = new SqlConnection(MYDBConnectionString);
+            SqlDataAdapter da = null;
+            /* Edit this. */
+            string sqlupd = "UPDATE [Act] SET [Title] = @Title, [Description] = @Description, [Duration] = @Duration WHERE [ActId] = @ActId";
+
+            try
+            {
+                conn.Open();
+                da = new SqlDataAdapter();
+
+                da.UpdateCommand = new SqlCommand(sqlupd, conn);
+
+                //da.UpdateCommand.Parameters.AddWithValue("@Title", TextBoxTitle.Text);
+                //da.UpdateCommand.Parameters.AddWithValue("@Description", TextBoxText.Text);
+                //da.UpdateCommand.Parameters.AddWithValue("@Duration", TextBoxDuration.Text);
+                //da.UpdateCommand.Parameters.AddWithValue("@ActId", LabelID.Text);
+
+                da.UpdateCommand.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                //LabelMessage.Text = "" + ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
         /* Returns a score base on the password provided. */
         private int checkPassword(string password)
         {
