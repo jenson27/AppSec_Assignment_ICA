@@ -205,7 +205,7 @@ namespace AppSec_Assignment_ICA
                             //cmd.Parameters.AddWithValue("@creditCard", tb_creditCard.Text.Trim());
                             cmd.Parameters.AddWithValue("@passwordHash", finalHash);
                             cmd.Parameters.AddWithValue("@passwordSalt", salt);
-                            cmd.Parameters.AddWithValue("@dob", DateTime.Now);
+                            cmd.Parameters.AddWithValue("@dob", DateTime.Parse(DOB.Text));
                             cmd.Parameters.AddWithValue("@imageName", imageName.ToString());
                             cmd.Parameters.AddWithValue("@iv", Convert.ToBase64String(IV));
                             cmd.Parameters.AddWithValue("@key", Convert.ToBase64String(Key));
