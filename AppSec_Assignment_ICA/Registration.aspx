@@ -44,6 +44,11 @@
                 </td>
                 <td class="style2">
                     <asp:TextBox ID="tb_firstName" runat="server" Height="36px" Width="280px"></asp:TextBox>
+                    <asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server"
+                      ControlToValidate="tb_firstName"
+                      ErrorMessage="First name is a required field."
+                      ForeColor="Red">
+                    </asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -52,6 +57,11 @@
                 </td>
                 <td class="style2">
                     <asp:TextBox ID="tb_lastName" runat="server" Height="36px" Width="280px"></asp:TextBox>
+                    <asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server"
+                      ControlToValidate="tb_lastName"
+                      ErrorMessage="Last name is a required field."
+                      ForeColor="Red">
+                    </asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -60,6 +70,11 @@
                 </td>
                 <td class="style2">
                     <asp:TextBox ID="tb_creditCard" runat="server" Height="32px" Width="281px"></asp:TextBox>
+                    <asp:RequiredFieldValidator id="RequiredFieldValidator3" runat="server"
+                      ControlToValidate="tb_creditCard"
+                      ErrorMessage="Credit card is a required field."
+                      ForeColor="Red">
+                    </asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -73,7 +88,13 @@
                         ControlToValidate="tb_email"
                         Text="Enter valid email address"
                         ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
-                        Runat="server" />   
+                        Runat="server" />
+
+                    <asp:RequiredFieldValidator id="RequiredFieldValidator4" runat="server"
+                      ControlToValidate="tb_email"
+                      ErrorMessage="Email is a required field."
+                      ForeColor="Red">
+                    </asp:RequiredFieldValidator>
 
                 </td>
             </tr>
@@ -92,8 +113,14 @@
                 </td>
                 <td class="style2">
                     <EditItemTemplate>  
-                        <asp:TextBox ID="DOB" runat="server" Text='' TextMode="Date" Height="32px" Width="281px"></asp:TextBox>  
+                        <asp:TextBox ID="DOB" runat="server" Text='' TextMode="Date" Height="32px" Width="281px"></asp:TextBox> 
                     </EditItemTemplate>
+
+                    <asp:RequiredFieldValidator id="RequiredFieldValidator5" runat="server"
+                      ControlToValidate="DOB"
+                      ErrorMessage="Date of Birth is a required field."
+                      ForeColor="Red">
+                    </asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
