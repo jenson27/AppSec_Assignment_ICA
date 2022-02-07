@@ -223,7 +223,7 @@ namespace AppSec_Assignment_ICA
                             catch (Exception ex)
                             {
                                 //throw new Exception(ex.ToString());
-                                lb_error1.Text = ex.ToString();
+                                //lb_error1.Text = ex.ToString();
                             }
                             finally
                             {
