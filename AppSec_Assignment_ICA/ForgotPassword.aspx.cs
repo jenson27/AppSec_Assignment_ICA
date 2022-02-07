@@ -14,6 +14,7 @@ using System.Text;
 using System.Net.Mime;
 using System.Net.Http;
 using System.Diagnostics;
+using System.Configuration;
 
 
 namespace AppSec_Assignment_ICA
@@ -110,6 +111,7 @@ namespace AppSec_Assignment_ICA
             // Specify the email Subject
             mailMessage.Subject = "Forgot Password APPSEC";
 
+            var appSettings = ConfigurationManager.AppSettings;
 
             // No need to specify the SMTP settings as these 
             // are already specified in web.config
@@ -117,8 +119,8 @@ namespace AppSec_Assignment_ICA
             //SmtpClient.EnableSsl = true;
             smtpClient.Credentials = new System.Net.NetworkCredential()
             {
-                UserName = "astraltest2727@gmail.com",
-                Password = "Astral2727@"
+                UserName = appSettings["SMTP_ID"],
+                Password = appSettings["SMTP_Password"]
             };
             // Finall send the email message using Send() method
             smtpClient.Send(mailMessage);
